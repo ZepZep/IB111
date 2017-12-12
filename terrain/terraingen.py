@@ -51,7 +51,7 @@ class TerrainGen(Frame):
 
         self.frameCnt = frameCnt
 
-        self.canvas = TerrainView(self, None, width=700, height=700)
+        self.canvas = TerrainView(self, None, width=550, height=550)
         self.canvas.pack(side=RIGHT)
 
     def setGenerator(self, name):

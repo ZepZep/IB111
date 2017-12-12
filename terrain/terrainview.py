@@ -3,8 +3,8 @@ from PIL import ImageTk
 
 
 class TerrainView(Canvas):
-    def __init__(self, root, map, width=700, height=700):
-        Canvas.__init__(self, root,  width=700, height=700)
+    def __init__(self, root, map, width=550, height=550):
+        Canvas.__init__(self, root,  width=width, height=height)
         self.width = width
         self.height = height
         self.level = 0
