@@ -11,17 +11,23 @@ def incrementDictPos(pos, dict):
         dict[key] = 1
 
 
-def checkCellMode(winNum, lastCount, isMine, freeLastPos, freePrePos, mode):
+def checkCellMode(winNum, lastCount, preLastCount, isMine, freeLastPos, freePrePos, mode):
     """Checks if is current cell fits into mode"""
     if mode == "other-1":
         if lastCount == winNum - 1 and not isMine:
             return freeLastPos if freeLastPos else freePrePos
+        if lastCount + preLastCount + 1 >= winNum and not isMine:
+            # print("mezi", freePrePos, freeLastPos)
+            return freePrePos
     elif mode == "other-2":
         if lastCount == winNum - 2 and not isMine:
             return freeLastPos if freeLastPos and freePrePos else None
     elif mode == "own-1":
         if lastCount == winNum - 1 and isMine:
             return freeLastPos if freeLastPos else freePrePos
+        if lastCount + preLastCount + 1 >= winNum and isMine:
+            # print("mezi")
+            return freePrePos
     elif mode == "own-2":
         if lastCount == winNum - 2 and isMine:
             return freeLastPos if freeLastPos and freePrePos else None
@@ -74,6 +80,8 @@ class PlayerReact(PlayerRand):
         for line, pos, direction in playField.lines(True):
             lastPlayer = 0
             lastCount = 0
+            preLastCount = 0
+            preLastPlayer = -1
             freePre = False
             freeLast = False
             for i, cell in enumerate(line):
@@ -83,23 +91,34 @@ class PlayerReact(PlayerRand):
                         if freeLast:
                             freePre = True
                     else:
+                        if preLastPlayer != cell:
+                            preLastCount = 0
                         if lastPlayer != 0:
                             freePre = False
+                            preLastCount = 0
+                            preLastPlayer = lastPlayer
                         lastPlayer = cell
                         lastCount = 1
 
                 freeLast = cell == 0
 
                 freeLastPos = pos + (direction * i) if freeLast else None
-                freePrePos = pos + (direction * (i - playField.winNum + 1)) if freePre else None
+                freePrePos = pos + (direction * (i - lastCount)) if freePre else None
+
+                # if preLastCount:
+                #     print(pos, direction, pos + (direction * i), preLastCount)
 
                 # print(playField.winNum, lastCount, lastPlayer==myID, freeLastPos, freePrePos, mode)
-                outCell = checkCellMode(playField.winNum, lastCount, lastPlayer==myID,
-                                        freeLastPos, freePrePos, mode)
+                outCell = checkCellMode(playField.winNum, lastCount, preLastCount,
+                                        lastPlayer==myID, freeLastPos, freePrePos, mode)
                 if outCell is not None:
                     yield outCell
 
                 if cell == 0:
+                    preLastCount = 0 if preLastPlayer == 0 else lastCount
+                    preLastPlayer = lastPlayer
+
                     lastPlayer = 0
                     lastCount = 0
                     freePre = True
+

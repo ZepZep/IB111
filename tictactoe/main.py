@@ -2,6 +2,7 @@ from playField import *
 from visualiser import *
 from playerRand import PlayerRand
 from playerReact import PlayerReact
+from playerUnbeat import PlayerUnbeat
 from playerNeural import PlayerNeural
 from time import sleep
 import sys
@@ -18,8 +19,9 @@ visualiser.show()
 visualiser.setNextPlayer(curPlayer)
 
 aiPlayers = {}
-# aiPlayers[1] = PlayerRand(playField, 1)
-aiPlayers[2] = PlayerReact(playField, 2)
+# aiPlayers[1] = PlayerReact(playField, 1)
+# aiPlayers[1] = PlayerUnbeat(playField, 1)
+aiPlayers[2] = PlayerUnbeat(playField, 2)
 # aiPlayers[2] = PlayerNeural()
 # aiPlayers[2].setStrategy(np.random.random(10*10+10*9) - 0.5)
 

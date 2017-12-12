@@ -17,7 +17,8 @@ class PlayerUnbeat(PlayerReact):
 
             # try other moves
             move = self.move3x3()
-            return move
+            if move is not None:
+                return move
 
         return PlayerRand(self.playField, self.myID).nextMove()
 
