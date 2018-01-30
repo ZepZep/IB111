@@ -1,17 +1,18 @@
 # IB111 -- Projekty
 
 ## Strategie
-TODO
-
-## Data
-TODO
+Simulace TicTacToe (piškvorky) a několik strategií.
 
 ## Obrázky
 Pro lepší vizualizaci a ovladatelnost při vývoji jsem obrázky obalil Tk aplikací.
 Proto jak fraktály, tak krajina potřebují `Tk`
 ### Fraktály
-TODO
+Rekurzivní generování fraktálů.
+
+spouštěč `fractals/main.py`
 
 ### Krajina
+Generuje obrázky krajinky, používá perlinův šum.
+
 ve složce `terrain`
 spouštěč `terrain.py`
